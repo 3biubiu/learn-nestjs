@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://unpkg.com/axios@0.24.0/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <script>
+        const instance = axios.create({
+            baseURL: 'http://localhost:7878/',
+            timeout: 1000,
+        });
+        async function urlParam() {
+            const res = await instance.get('/api/person/1');
+            console.log(res);
+        }
+        async function query() {
+            const res = await instance.get('/api/person/find?name=biubiu&age=17');
+            console.log(res);
+        }
+        urlParam();
+        query()
+    </script>
+</body>
