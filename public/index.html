@@ -3,9 +3,11 @@
 
 <head>
     <script src="https://unpkg.com/axios@0.24.0/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/qs@6.10.2/dist/qs.js"></script>
 </head>
 
 <body>
+    <input id="fileInput" type="file" multiple>
     <script>
         const instance = axios.create({
             baseURL: 'http://localhost:7878/',
@@ -19,7 +21,40 @@
             const res = await instance.get('/api/person/find?name=biubiu&age=17');
             console.log(res);
         }
+        async function formUrlEncoded() {
+            const res = await axios.post('/api/person', Qs.stringify({
+                name: 'biubiu',
+                age: 20
+            }), {
+                headers: { 'content-type': 'application/x-www-form-urlencoded' }
+            });
+            console.log(res);  
+        }
+        // josn 是默认配置
+        async function json() {
+            const res = await axios.post('/api/person', {
+                name: 'biubiu',
+                age: 20
+            });
+            console.log(res);  
+        }
         urlParam();
         query()
+        // formUrlEncoded()
+        json()
+
+        const fileInput = document.querySelector("#fileInput")
+        async function formData() {
+            const data = new FormData()
+            data.set('name','biubibu')
+            data.set('age',100)
+            data.set('file1',fileInput.files[0])
+            data.set('file2',fileInput.files[1])
+            const res = await axios.post('/api/person/file',data,{
+                headers: {'content-type': 'multiple/form-data'}
+            })
+            console.log(res);
+        }
+        fileInput.onchange = formData;
     </script>
 </body>
